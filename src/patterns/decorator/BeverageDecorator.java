@@ -1,0 +1,26 @@
+package patterns.decorator;
+
+import model.beverage.Beverage;
+
+public abstract class BeverageDecorator implements Beverage, ToppingCompatible {
+    protected final Beverage delegate;
+
+    protected BeverageDecorator(Beverage delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public String getDescription() { return delegate.getDescription(); }
+
+    @Override
+    public double getBaseCost() { return delegate.getBaseCost(); }
+
+    @Override
+    public boolean supports(ToppingType topping) {
+        // delegate to wrapped beverage
+        if (delegate instanceof ToppingCompatible compat) {
+            return compat.supports(topping);
+        }
+        return false;
+    }
+}
