@@ -17,7 +17,6 @@ public abstract class BeverageDecorator implements Beverage, ToppingCompatible {
 
     @Override
     public boolean supports(ToppingType topping) {
-        // delegate to wrapped beverage
         if (delegate instanceof ToppingCompatible compat) {
             return compat.supports(topping);
         }

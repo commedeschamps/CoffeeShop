@@ -14,6 +14,7 @@ import patterns.factory.MenuItemFactory;
 
 import patterns.observer.BaristaConsoleObserver;
 import patterns.observer.OrderLogObserver;
+import patterns.observer.EventListener;
 
 import model.order.Order;
 import patterns.builder.OrderBuilder;
@@ -168,9 +169,11 @@ public class CoffeeShopFacade {
 
         Order order = currentBuilder.build();
 
-        // attach observers
-        order.addObserver(new BaristaConsoleObserver());
-        order.addObserver(new OrderLogObserver());
+        // configure event-based subscribers at runtime
+        EventListener barista = new BaristaConsoleObserver();
+        EventListener logger = new OrderLogObserver();
+        order.getEvents().subscribe(Order.EVENT_STATUS_CHANGED, barista);
+        order.getEvents().subscribe(Order.EVENT_STATUS_CHANGED, logger);
 
         order.setStatus(OrderStatus.IN_PROGRESS);
 

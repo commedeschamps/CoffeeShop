@@ -5,10 +5,10 @@ import model.order.OrderItem;
 import model.order.OrderStatus;
 
 
-public class BaristaConsoleObserver implements OrderObserver {
+public class BaristaConsoleObserver implements EventListener {
 
     @Override
-    public void onOrderStatusChanged(Order order) {
+    public void update(String eventType, Order order) {
         if (order.getStatus() == OrderStatus.NEW) {
             int drinks = order.getItems().stream()
                     .mapToInt(OrderItem::getQuantity)

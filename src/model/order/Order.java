@@ -1,16 +1,17 @@
 package model.order;
 
-import patterns.observer.OrderObserver;
-import patterns.observer.OrderSubject;
+import patterns.observer.EventManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Order implements OrderSubject {
+public class Order {
+
+    public static final String EVENT_STATUS_CHANGED = "order:status_changed";
 
     private final List<OrderItem> items;
-    private final List<OrderObserver> observers = new ArrayList<>();
+    private final EventManager events = new EventManager(EVENT_STATUS_CHANGED);
     private OrderStatus status;
 
     public Order(List<OrderItem> items) {
@@ -28,23 +29,10 @@ public class Order implements OrderSubject {
 
     public void setStatus(OrderStatus newStatus) {
         this.status = newStatus;
-        notifyObservers();
+        events.notify(EVENT_STATUS_CHANGED, this);
     }
 
-    @Override
-    public void addObserver(OrderObserver observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(OrderObserver observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (OrderObserver observer : observers) {
-            observer.onOrderStatusChanged(this);
-        }
+    public EventManager getEvents() {
+        return events;
     }
 }

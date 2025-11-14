@@ -3,10 +3,10 @@ package patterns.observer;
 import model.order.Order;
 
 
-public class OrderLogObserver implements OrderObserver {
+public class OrderLogObserver implements EventListener {
 
     @Override
-    public void onOrderStatusChanged(Order order) {
+    public void update(String eventType, Order order) {
         System.out.println("[Log] Order status changed to: " + order.getStatus());
     }
 }
