@@ -18,9 +18,9 @@ public class MilkDecorator extends BeverageDecorator {
         if (milkType == null) {
             return delegate.getDescription() + ", milk";
         }
-        return delegate.getDescription() + ", " + toHumanReadable(milkType) + " milk";
+        return delegate.getDescription() + ", " + selectMilk(milkType) + " milk";
     }
-    public String toHumanReadable(MilkType milkType) {
+    public String selectMilk(MilkType milkType) {
         return switch (milkType) {
             case ALMOND -> "almond";
             case COCONUT -> "coconut";

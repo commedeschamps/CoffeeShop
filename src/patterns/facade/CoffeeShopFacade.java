@@ -154,7 +154,7 @@ public class CoffeeShopFacade {
 
         Order order = currentBuilder.build();
 
-        EventListener barista = new BaristaConsoleObserver();
+       EventListener barista = new BaristaConsoleObserver();
         EventListener logger = new OrderLogObserver();
         order.getEvents().subscribe(Order.EVENT_STATUS_CHANGED, barista);
         order.getEvents().subscribe(Order.EVENT_STATUS_CHANGED, logger);

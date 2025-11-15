@@ -16,6 +16,6 @@ public class ExtraShotDecorator extends BeverageDecorator {
     @Override
     public double getBaseCost() {
         // extra shot a bit cheaper than full espresso
-        return delegate.getBaseCost() + 300;
+        return delegate.getBaseCost() + 200;
     }
 }

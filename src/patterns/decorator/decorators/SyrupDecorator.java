@@ -13,14 +13,14 @@ public class SyrupDecorator extends BeverageDecorator {
 
     @Override
     public String getDescription() {
-        return delegate.getDescription() + ", " + toHumanReadable(syrupType) + " syrup";
+        return delegate.getDescription() + ", " + selectSyrup(syrupType) + " syrup";
     }
 
     @Override
     public double getBaseCost() {
         return delegate.getBaseCost() + 200; // tenge
     }
-    private String toHumanReadable(SyrupType type) {
+    private String selectSyrup(SyrupType type) {
         return switch (type) {
             case VANILLA      -> "vanilla";
             case CARAMEL      -> "caramel";
