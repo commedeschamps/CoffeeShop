@@ -1,25 +1,30 @@
-package model.beverage;
+package model.beverage.seasonal;
 
+import model.beverage.Beverage;
 import patterns.decorator.types.ToppingCompatible;
 import patterns.decorator.types.ToppingType;
 
-public class Espresso implements Beverage, ToppingCompatible {
-
+public class GingerTea implements Beverage, ToppingCompatible {
     @Override
     public String getDescription() {
-        return "Espresso";
+        return "Ginger Tea";
     }
 
     @Override
     public double getBaseCost() {
-        return 800;
+        return 1000;
     }
 
     @Override
     public boolean supports(ToppingType topping) {
         return switch (topping) {
-            case MILK, SYRUP, EXTRA_SHOT, WHIPPED_CREAM, CINNAMON -> true;
+            case MILK, SYRUP -> true;
+            case EXTRA_SHOT -> false;
+            case WHIPPED_CREAM -> false;
+            case CINNAMON -> true;
+
             default -> false;
         };
     }
+
 }

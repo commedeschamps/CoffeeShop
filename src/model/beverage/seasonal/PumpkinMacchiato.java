@@ -1,24 +1,25 @@
-package model.beverage;
+package model.beverage.seasonal;
 
+import model.beverage.Beverage;
 import patterns.decorator.types.ToppingCompatible;
 import patterns.decorator.types.ToppingType;
 
-public class Espresso implements Beverage, ToppingCompatible {
-
+public class PumpkinMacchiato implements Beverage, ToppingCompatible {
     @Override
     public String getDescription() {
-        return "Espresso";
+        return "Pumpkin Macchiato";
     }
 
     @Override
     public double getBaseCost() {
-        return 800;
+        return 1200;
     }
 
     @Override
     public boolean supports(ToppingType topping) {
         return switch (topping) {
-            case MILK, SYRUP, EXTRA_SHOT, WHIPPED_CREAM, CINNAMON -> true;
+            case SYRUP, CINNAMON -> true;
+            case EXTRA_SHOT, MILK, WHIPPED_CREAM  -> false;
             default -> false;
         };
     }

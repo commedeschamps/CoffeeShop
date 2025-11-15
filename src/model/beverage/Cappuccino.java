@@ -1,7 +1,7 @@
 package model.beverage;
 
-import patterns.decorator.ToppingCompatible;
-import patterns.decorator.ToppingType;
+import patterns.decorator.types.ToppingCompatible;
+import patterns.decorator.types.ToppingType;
 
 public class Cappuccino implements Beverage, ToppingCompatible {
 

@@ -1,6 +1,7 @@
-package patterns.decorator;
+package patterns.decorator.decorators;
 
 import model.beverage.Beverage;
+import patterns.decorator.types.MilkType;
 
 public class MilkDecorator extends BeverageDecorator {
 

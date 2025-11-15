@@ -2,7 +2,7 @@ package patterns.strategy;
 
 import model.order.Order;
 
-// Example: 10% discount on total
+//10% discount on total
 
 public class StudentDiscountStrategy implements PricingStrategy {
 

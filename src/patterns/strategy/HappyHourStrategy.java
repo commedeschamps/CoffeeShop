@@ -3,7 +3,7 @@ package patterns.strategy;
 
 import model.order.Order;
 
-// Example: 20% discount on all drinks
+//20% discount on all drinks
 
 public class HappyHourStrategy implements PricingStrategy {
 
@@ -12,7 +12,7 @@ public class HappyHourStrategy implements PricingStrategy {
         double total = order.getItems().stream()
                 .mapToDouble(item -> item.getItem().getBaseCost() * item.getQuantity())
                 .sum();
-        return total * 0.8; // 20% off
+        return total * 0.8;
     }
 
     @Override

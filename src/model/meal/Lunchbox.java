@@ -2,7 +2,7 @@ package model.meal;
 
 import model.menu.MenuItem;
 
-public class Lunchbox implements MenuItem {
+public class Lunchbox implements Meal {
     @Override
     public String getDescription() {
         return "Lunchbox";

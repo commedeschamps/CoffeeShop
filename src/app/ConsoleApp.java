@@ -1,18 +1,21 @@
 package app;
 
-import patterns.decorator.ToppingCompatible;
-import patterns.decorator.ToppingType;
-import patterns.decorator.MilkType;
-import patterns.decorator.SyrupType;
+import patterns.decorator.types.ToppingCompatible;
+import patterns.decorator.types.ToppingType;
+import patterns.decorator.types.MilkType;
+import patterns.decorator.types.SyrupType;
 import patterns.factory.*;
 import model.menu.MenuItem;
 import patterns.strategy.*;
 import model.order.Order;
 import patterns.facade.CoffeeShopFacade;
 import patterns.facade.DrinkRequest;
-import patterns.adapter.LegacyPaymentAPI;
-import patterns.adapter.LegacyPaymentAdapter;
-import patterns.adapter.PaymentProcessor;
+import patterns.adapter.adapters.KaspiPaymentAdapter;
+import patterns.adapter.adapters.HalykPaymentAdapter;
+import patterns.adapter.external.KaspiPaymentAPI;
+import patterns.adapter.external.HalykPaymentAPI;
+import patterns.adapter.standart.CashPayment;
+import patterns.adapter.standart.PaymentProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +24,11 @@ import java.util.Scanner;
 public class ConsoleApp {
 
     public static void main(String[] args) {
-        MenuItemFactory menuFactory = new CompositeMenuFactory(
-                List.of(
-                        new BeverageMenuFactory(),
-                        new DessertFactory(),
-                        new MealFactory()
-                )
-        );
+        //choose menu factory variant (Standard or Autumn)
+        MenuFactory menuFactory = chooseMenuFactory();
 
         PricingStrategy pricingStrategy = new NoDiscountStrategy();
-        PaymentProcessor paymentProcessor = new LegacyPaymentAdapter(new LegacyPaymentAPI());
+        PaymentProcessor paymentProcessor = choosePaymentProcessor();
         CoffeeShopFacade facade = new CoffeeShopFacade(menuFactory, pricingStrategy, paymentProcessor);
 
         Scanner scanner = new Scanner(System.in);
@@ -50,7 +48,7 @@ public class ConsoleApp {
 
             switch (choice) {
                 case "1" -> {
-                    Order order = handleNewOrder(scanner, facade);
+                    Order order = handleNewOrder(scanner, facade, menuFactory instanceof AutumnMenuFactory);
                     if (order != null) orderHistory.add(order);
                 }
                 case "2" -> chooseStrategy(scanner, facade);
@@ -63,7 +61,25 @@ public class ConsoleApp {
         System.out.println("Goodbye!");
     }
 
-    private static Order handleNewOrder(Scanner scanner, CoffeeShopFacade facade) {
+    private static MenuFactory chooseMenuFactory() {
+        System.out.println("Choose menu variant:");
+        System.out.println("1) Standard menu");
+        System.out.println("2) Autumn seasonal menu");
+        System.out.print("Your choice (default: 1): ");
+
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine().trim();
+
+        if ("2".equals(choice)) {
+            System.out.println("🍂 Autumn menu selected! Seasonal items available.");
+            return new AutumnMenuFactory();
+        } else {
+            System.out.println("Standard menu selected.");
+            return new StandardMenuFactory();
+        }
+    }
+
+    private static Order handleNewOrder(Scanner scanner, CoffeeShopFacade facade, boolean isAutumnMenu) {
         facade.startNewOrder();
         boolean addedAny = false;
 
@@ -80,15 +96,35 @@ public class ConsoleApp {
             System.out.println(" 8) Cappuccino");
             System.out.println(" 9) Americano");
             System.out.println("10) Hot Chocolate");
+
+            if (isAutumnMenu) {
+                System.out.println("🍂 Autumn Specials:");
+                System.out.println("21) Pumpkin Macchiato");
+                System.out.println("22) Ginger Tea");
+            }
+
             System.out.println("Desserts:");
             System.out.println("11) Cheesecake");
             System.out.println("12) Brownie");
             System.out.println("13) Muffin ");
             System.out.println("14) Croissant");
+
+            if (isAutumnMenu) {
+                System.out.println("🍂 Autumn Specials:");
+                System.out.println("23) Caramel Apple Pie");
+                System.out.println("24) Cinnamon Roll");
+            }
+
             System.out.println("Meals:");
             System.out.println("15) Lunchbox");
             System.out.println("16) Salad");
             System.out.println("17) Sandwich ");
+
+            if (isAutumnMenu) {
+                System.out.println("🍂 Autumn Specials:");
+                System.out.println("25) Pumpkin Soup");
+            }
+
             System.out.println("0) Finish adding items");
             System.out.print("Your choice: ");
 
@@ -113,6 +149,12 @@ public class ConsoleApp {
                 case "15" -> "LUNCHBOX";
                 case "16" -> "SALAD";
                 case "17" -> "SANDWICH";
+                // Autumn items
+                case "21" -> "PUMPKIN_MACCHIATO";
+                case "22" -> "GINGER_TEA";
+                case "23" -> "CARAMEL_APPLE_PIE";
+                case "24" -> "CINNAMON_ROLL";
+                case "25" -> "PUMPKIN_SOUP";
                 default -> {
                     System.out.println("Unknown code, defaulting to ESP");
                     yield "ESP";
@@ -271,6 +313,21 @@ public class ConsoleApp {
             case "4" -> SyrupType.HAZELNUT;
             case "5" -> SyrupType.SALT_CARAMEL;
             default -> SyrupType.VANILLA;
+        };
+    }
+
+    private static PaymentProcessor choosePaymentProcessor() {
+        System.out.println("Choose payment method:");
+        System.out.println("1) Cash");
+        System.out.println("2) Kaspi QR");
+        System.out.println("3) Halyk Bank");
+        System.out.print("Your choice (default: 1): ");
+        Scanner sc = new Scanner(System.in);
+        String choice = sc.nextLine().trim();
+        return switch (choice) {
+            case "2" -> new KaspiPaymentAdapter(new KaspiPaymentAPI());
+            case "3" -> new HalykPaymentAdapter(new HalykPaymentAPI());
+            default -> new CashPayment();
         };
     }
 }

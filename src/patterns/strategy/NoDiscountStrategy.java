@@ -2,7 +2,7 @@ package patterns.strategy;
 
 import model.order.Order;
 
-// No discount, just sum up all items
+// no discount, just sum up all items
 
 public class NoDiscountStrategy implements PricingStrategy {
 

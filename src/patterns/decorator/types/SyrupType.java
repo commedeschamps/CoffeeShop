@@ -1,4 +1,4 @@
-package patterns.decorator;
+package patterns.decorator.types;
 
 public enum SyrupType {
     VANILLA,

@@ -1,6 +1,8 @@
-package patterns.decorator;
+package patterns.decorator.decorators;
 
 import model.beverage.Beverage;
+import patterns.decorator.types.ToppingCompatible;
+import patterns.decorator.types.ToppingType;
 
 public abstract class BeverageDecorator implements Beverage, ToppingCompatible {
     protected final Beverage delegate;

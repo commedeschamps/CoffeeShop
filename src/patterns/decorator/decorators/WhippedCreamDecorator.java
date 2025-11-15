@@ -1,4 +1,4 @@
-package patterns.decorator;
+package patterns.decorator.decorators;
 
 import model.beverage.Beverage;
 

@@ -2,7 +2,7 @@ package model.meal;
 
 import model.menu.MenuItem;
 
-public class Salad implements MenuItem {
+public class Salad implements Meal {
     @Override
     public String getDescription() {
         return "Fresh salad";

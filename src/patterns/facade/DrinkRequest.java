@@ -1,7 +1,7 @@
 package patterns.facade;
 
-import patterns.decorator.MilkType;
-import patterns.decorator.SyrupType;
+import patterns.decorator.types.MilkType;
+import patterns.decorator.types.SyrupType;
 
 public class DrinkRequest {
 

@@ -2,7 +2,7 @@ package model.dessert;
 
 import model.menu.MenuItem;
 
-public class Muffin implements MenuItem {
+public class Muffin implements Dessert {
     @Override
     public String getDescription() {
         return "Muffin";
